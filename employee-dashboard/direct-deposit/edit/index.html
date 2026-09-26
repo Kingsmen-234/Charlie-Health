@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Direct Deposit</title>
+    <meta name="description" content="Edit current direct deposit account for Charlie Health employees." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../styles.css" />
+  </head>
+  <body class="portal-page employee-dashboard-page">
+    <div class="employee-dashboard-shell">
+      <aside class="employee-sidebar" aria-label="Employee dashboard navigation">
+        <div class="employee-sidebar-header">
+          <div class="employee-sidebar-brand">
+            <div class="logo-mark">CH</div>
+            <div>
+              <strong>Charlie Health</strong>
+              <span>Employee Portal</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="employee-nav" aria-label="Main navigation">
+          <a class="nav-item" href="../../"><span class="nav-icon">▣</span> Dashboard</a>
+          <a class="nav-item" href="../../profile/"><span class="nav-icon">◉</span> My Profile</a>
+          <a class="nav-item active" href="../"><span class="nav-icon">◫</span> Direct Deposit</a>
+          <a class="nav-item" href="../../payroll/"><span class="nav-icon">◍</span> Payroll</a>
+          <a class="nav-item" href="../../training/"><span class="nav-icon">◌</span> Training</a>
+          <a class="nav-item" href="../../benefits/"><span class="nav-icon">◎</span> Benefits</a>
+          <a class="nav-item" href="../../documents/"><span class="nav-icon">▤</span> Documents</a>
+          <a class="nav-item" href="../../support/"><span class="nav-icon">? </span> Help &amp; Support</a>
+        </nav>
+
+        <div class="employee-sidebar-footer">
+          <button type="button" class="logout-sidebar-button" data-logout-button>Log Out</button>
+        </div>
+      </aside>
+
+      <main class="employee-main">
+        <header class="employee-topbar">
+          <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle navigation menu">☰ Menu</button>
+          <div class="notification-tray">
+            <a class="notification-link" href="../../notifications/" aria-label="Open notifications">🔔<span class="notification-count">3</span></a>
+            <div class="profile-menu">
+              <button type="button" class="profile-menu-toggle" aria-expanded="false" aria-label="Open account menu">
+                <div class="profile-avatar" aria-label="Employee profile">JL</div>
+                <div class="profile-meta">
+                  <strong>Jordan Lee</strong>
+                  <span>Employee ID: CH-2048</span>
+                </div>
+                <span class="menu-caret">▾</span>
+              </button>
+              <div class="profile-menu-list" role="menu">
+                <a class="profile-menu-item" href="../../profile/" role="menuitem">My Profile</a>
+                <a class="profile-menu-item" href="../../profile/" role="menuitem">Account Settings</a>
+                <button type="button" class="profile-menu-item danger" data-logout-button role="menuitem">Log Out</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="employee-page-shell">
+          <section class="content-panel direct-deposit-update-panel">
+            <header class="direct-deposit-update-header">
+              <div>
+                <p class="section-kicker">Direct Deposit</p>
+                <h1>Edit Direct Deposit</h1>
+                <p class="section-subtitle">Update your current direct deposit account information.</p>
+              </div>
+              <a class="button secondary small" href="../">← Back to Direct Deposit</a>
+            </header>
+
+            <div class="security-banner" role="note">
+              <strong>🔒 Your Information Is Secure</strong>
+              <p>For your protection, banking information is securely transmitted and should never be shared through email, chat, or other unsecured channels.</p>
+            </div>
+
+            <div class="current-account-card" aria-label="Current direct deposit account">
+              <h2>Current Direct Deposit Account</h2>
+              <div class="current-account-grid">
+                <div class="current-account-row">
+                  <span>Payment Method</span>
+                  <strong>Direct Deposit</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Account Type</span>
+                  <strong>Checking</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Account Number</span>
+                  <strong>•••• 4821</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Status</span>
+                  <strong>Active</strong>
+                </div>
+              </div>
+              <p class="muted-note">For security, your existing account number is partially hidden.</p>
+            </div>
+
+            <form id="edit-direct-deposit-form" class="form-layout direct-deposit-update-form" novalidate>
+              <div class="stacked-section">
+                <h2>Edit Current Account Information</h2>
+                <p>Update the account details below. This information will replace the account currently associated with your direct deposit.</p>
+              </div>
+
+              <div class="field-group">
+                <label for="edit-account-type">Account Type <span class="required">*</span></label>
+                <select id="edit-account-type" name="accountType" required>
+                  <option value="">Select an account type</option>
+                  <option value="Checking" selected>Checking</option>
+                  <option value="Savings">Savings</option>
+                </select>
+                <div class="error-message" data-error-for="edit-account-type" aria-live="polite"></div>
+              </div>
+
+              <div class="field-group">
+                <label for="edit-account-holder-name">Account Holder Name <span class="required">*</span></label>
+                <input id="edit-account-holder-name" name="accountHolderName" type="text" value="Jordan Lee" placeholder="Enter the name exactly as it appears on the bank account." required />
+                <div class="error-message" data-error-for="edit-account-holder-name" aria-live="polite"></div>
+              </div>
+
+              <div class="field-group">
+                <label for="edit-routing-number">Routing Number <span class="required">*</span></label>
+                <input id="edit-routing-number" name="routingNumber" type="text" inputmode="numeric" maxlength="9" placeholder="Enter 9-digit routing number" required />
+                <div class="helper-text">Your routing number is the 9-digit number associated with your bank.</div>
+                <div class="error-message" data-error-for="edit-routing-number" aria-live="polite"></div>
+              </div>
+
+              <div class="field-group">
+                <label for="edit-account-number">Account Number <span class="required">*</span></label>
+                <div class="password-wrap">
+                  <input id="edit-account-number" name="accountNumber" type="password" inputmode="numeric" placeholder="Enter account number" required />
+                  <button type="button" class="password-toggle" data-show-account-number="edit-account-number" aria-label="Show account number">Show</button>
+                </div>
+                <div class="error-message" data-error-for="edit-account-number" aria-live="polite"></div>
+              </div>
+
+              <div class="field-group">
+                <label for="edit-confirm-account-number">Confirm Account Number <span class="required">*</span></label>
+                <div class="password-wrap">
+                  <input id="edit-confirm-account-number" name="confirmAccountNumber" type="password" inputmode="numeric" placeholder="Re-enter account number" required />
+                  <button type="button" class="password-toggle" data-show-account-number="edit-confirm-account-number" aria-label="Show account number">Show</button>
+                </div>
+                <div class="error-message" data-error-for="edit-confirm-account-number" aria-live="polite"></div>
+              </div>
+
+              <div class="stacked-section authorization-section">
+                <h2>Confirm Your Changes</h2>
+                <label class="checkbox-row">
+                  <input id="edit-authorization-accurate" type="checkbox" />
+                  <span>I confirm that the bank account information I entered is accurate and belongs to me.</span>
+                </label>
+                <div class="error-message" data-error-for="edit-authorization-accurate" aria-live="polite"></div>
+
+                <label class="checkbox-row">
+                  <input id="edit-authorization-consent" type="checkbox" />
+                  <span>I authorize the applicable payroll system to use this account for direct deposit according to its terms and procedures.</span>
+                </label>
+                <div class="error-message" data-error-for="edit-authorization-consent" aria-live="polite"></div>
+              </div>
+
+              <div class="form-actions">
+                <a class="button secondary" href="../">Cancel</a>
+                <button type="submit" class="button primary" id="edit-save-direct-deposit" disabled>Save Changes</button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../../../script.js"></script>
+  </body>
+</html>

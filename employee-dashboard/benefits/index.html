@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benefits & Wellbeing</title>
+    <meta name="description" content="Charlie Health employee benefits and wellbeing placeholder." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body class="portal-page employee-dashboard-page">
+    <div class="employee-dashboard-shell">
+      <aside class="employee-sidebar" aria-label="Employee dashboard navigation">
+        <div class="employee-sidebar-header">
+          <div class="employee-sidebar-brand">
+            <div class="logo-mark">CH</div>
+            <div>
+              <strong>Charlie Health</strong>
+              <span>Employee Portal</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="employee-nav" aria-label="Main navigation">
+          <a class="nav-item" href="../"><span class="nav-icon">▣</span> Dashboard</a>
+          <a class="nav-item" href="../profile/"><span class="nav-icon">◉</span> My Profile</a>
+          <a class="nav-item" href="../direct-deposit/"><span class="nav-icon">◫</span> Direct Deposit</a>
+          <a class="nav-item" href="../payroll/"><span class="nav-icon">◍</span> Payroll</a>
+          <a class="nav-item" href="../training/"><span class="nav-icon">◌</span> Training</a>
+          <a class="nav-item active" href="./"><span class="nav-icon">◎</span> Benefits</a>
+          <a class="nav-item" href="../documents/"><span class="nav-icon">▤</span> Documents</a>
+          <a class="nav-item" href="../support/"><span class="nav-icon">? </span> Help &amp; Support</a>
+        </nav>
+
+        <div class="employee-sidebar-footer">
+          <button type="button" class="logout-sidebar-button" data-logout-button>Log Out</button>
+        </div>
+      </aside>
+
+      <main class="employee-main">
+        <header class="employee-topbar">
+          <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle navigation menu">☰ Menu</button>
+          <div class="notification-tray">
+            <a class="notification-link" href="../notifications/" aria-label="Open notifications">🔔<span class="notification-count">3</span></a>
+            <div class="profile-menu">
+              <button type="button" class="profile-menu-toggle" aria-expanded="false" aria-label="Open account menu">
+                <div class="profile-avatar" aria-label="Employee profile">JL</div>
+                <div class="profile-meta">
+                  <strong>Jordan Lee</strong>
+                  <span>Employee ID: CH-2048</span>
+                </div>
+                <span class="menu-caret">▾</span>
+              </button>
+              <div class="profile-menu-list" role="menu">
+                <a class="profile-menu-item" href="../profile/" role="menuitem">My Profile</a>
+                <a class="profile-menu-item" href="../profile/" role="menuitem">Account Settings</a>
+                <button type="button" class="profile-menu-item danger" data-logout-button role="menuitem">Log Out</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="employee-page-shell">
+          <header class="page-header">
+            <h1>Benefits &amp; Wellbeing</h1>
+            <p>Placeholder benefits information will appear here when your HR benefits system is connected.</p>
+          </header>
+
+          <section class="content-panel">
+            <div class="card-header">
+              <h3>Health Coverage</h3>
+            </div>
+            <div class="benefits-grid">
+              <article class="detail-card">
+                <h3>Medical</h3>
+                <p>Benefits information will appear here when your benefits system is connected.</p>
+                <button type="button" class="button primary small">View Benefits</button>
+              </article>
+              <article class="detail-card">
+                <h3>Dental</h3>
+                <p>Benefits information will appear here when your benefits system is connected.</p>
+                <button type="button" class="button primary small">View Benefits</button>
+              </article>
+              <article class="detail-card">
+                <h3>Vision</h3>
+                <p>Benefits information will appear here when your benefits system is connected.</p>
+                <button type="button" class="button primary small">View Benefits</button>
+              </article>
+            </div>
+          </section>
+
+          <section class="content-panel" style="margin-top: 24px;">
+            <div class="card-header">
+              <h3>Financial Benefits</h3>
+            </div>
+            <div class="benefits-grid">
+              <article class="detail-card">
+                <h3>Retirement</h3>
+                <p>Placeholder retirement and savings resources.</p>
+                <button type="button" class="button primary small">View Benefits</button>
+              </article>
+              <article class="detail-card">
+                <h3>Financial Wellness</h3>
+                <p>Placeholder financial guidance and planning resources.</p>
+                <button type="button" class="button primary small">View Benefits</button>
+              </article>
+            </div>
+          </section>
+
+          <section class="content-panel" style="margin-top: 24px;">
+            <div class="card-header">
+              <h3>Wellbeing</h3>
+            </div>
+            <div class="benefits-grid">
+              <article class="detail-card">
+                <h3>Employee Assistance</h3>
+                <p>Placeholder support resources.</p>
+              </article>
+              <article class="detail-card">
+                <h3>Mental Wellness</h3>
+                <p>Placeholder resources and programs.</p>
+              </article>
+              <article class="detail-card">
+                <h3>Wellness Programs</h3>
+                <p>Placeholder health and wellbeing options.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="content-panel" style="margin-top: 24px;">
+            <div class="card-header">
+              <h3>Open Enrollment</h3>
+            </div>
+            <div class="empty-state">
+              <strong>Benefits information is placeholder content.</strong>
+              Enrollment dates, current enrollment status, and plan summaries will display when the HR benefits system is connected.
+            </div>
+            <button type="button" class="button primary" style="margin-top: 18px;">Review Benefits</button>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../../script.js"></script>
+  </body>
+</html>

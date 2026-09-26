@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Direct Deposit Update</title>
+    <meta name="description" content="Secure direct deposit update for Charlie Health employees." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../styles.css" />
+  </head>
+  <body class="portal-page employee-dashboard-page">
+    <div class="employee-dashboard-shell">
+      <aside class="employee-sidebar" aria-label="Employee dashboard navigation">
+        <div class="employee-sidebar-header">
+          <div class="employee-sidebar-brand">
+            <div class="logo-mark">CH</div>
+            <div>
+              <strong>Charlie Health</strong>
+              <span>Employee Portal</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="employee-nav" aria-label="Main navigation">
+          <a class="nav-item" href="../../"><span class="nav-icon">▣</span> Dashboard</a>
+          <a class="nav-item" href="../../profile/"><span class="nav-icon">◉</span> My Profile</a>
+          <a class="nav-item active" href="../"><span class="nav-icon">◫</span> Direct Deposit</a>
+          <a class="nav-item" href="../../payroll/"><span class="nav-icon">◍</span> Payroll</a>
+          <a class="nav-item" href="../../training/"><span class="nav-icon">◌</span> Training</a>
+          <a class="nav-item" href="../../benefits/"><span class="nav-icon">◎</span> Benefits</a>
+          <a class="nav-item" href="../../documents/"><span class="nav-icon">▤</span> Documents</a>
+          <a class="nav-item" href="../../support/"><span class="nav-icon">? </span> Help &amp; Support</a>
+        </nav>
+
+        <div class="employee-sidebar-footer">
+          <button type="button" class="logout-sidebar-button" data-logout-button>Log Out</button>
+        </div>
+      </aside>
+
+      <main class="employee-main">
+        <header class="employee-topbar">
+          <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle navigation menu">☰ Menu</button>
+          <div class="notification-tray">
+            <a class="notification-link" href="../../notifications/" aria-label="Open notifications">🔔<span class="notification-count">3</span></a>
+            <div class="profile-menu">
+              <button type="button" class="profile-menu-toggle" aria-expanded="false" aria-label="Open account menu">
+                <div class="profile-avatar" aria-label="Employee profile">JL</div>
+                <div class="profile-meta">
+                  <strong>Jordan Lee</strong>
+                  <span>Employee ID: CH-2048</span>
+                </div>
+                <span class="menu-caret">▾</span>
+              </button>
+              <div class="profile-menu-list" role="menu">
+                <a class="profile-menu-item" href="../../profile/" role="menuitem">My Profile</a>
+                <a class="profile-menu-item" href="../../profile/" role="menuitem">Account Settings</a>
+                <button type="button" class="profile-menu-item danger" data-logout-button role="menuitem">Log Out</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="employee-page-shell">
+          <section class="content-panel direct-deposit-update-panel">
+            <header class="direct-deposit-update-header">
+              <div>
+                <p class="section-kicker">Direct Deposit</p>
+                <h1>Direct Deposit</h1>
+                <p class="section-subtitle">Update your bank account information for future payroll deposits.</p>
+              </div>
+              <a class="button secondary small" href="../#direct-deposit">← Back to Direct Deposit</a>
+            </header>
+
+            <div class="security-banner" role="note">
+              <strong>🔒 Your Information Is Secure</strong>
+              <p>For your protection, banking information is securely transmitted and should never be shared through email, chat, or other unsecured channels.</p>
+            </div>
+
+            <div class="current-account-card" aria-label="Current direct deposit account">
+              <h2>Current Direct Deposit Account</h2>
+              <div class="current-account-grid">
+                <div class="current-account-row">
+                  <span>Payment Method</span>
+                  <strong>Direct Deposit</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Account Name</span>
+                  <strong id="current-account-name-value">Jordan Lee</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Account Type</span>
+                  <strong id="current-account-type-value">Checking</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Account Number</span>
+                  <strong id="current-account-number-value">•••• 4821</strong>
+                </div>
+                <div class="current-account-row">
+                  <span>Status</span>
+                  <strong id="current-account-status-value">Active</strong>
+                </div>
+              </div>
+              <p class="muted-note">For security, your existing account number is partially hidden.</p>
+              <a class="button secondary small" href="../edit/" id="edit-current-direct-deposit">Edit Information</a>
+            </div>
+
+            <div id="processing-state" class="status-card hidden" role="status" aria-live="polite">
+              <h2>Updating Direct Deposit</h2>
+              <p>Please wait while your information is securely submitted. Do not close this page.</p>
+              <div class="status-spinner" aria-hidden="true"></div>
+            </div>
+
+            <div id="success-state" class="status-card hidden" role="status">
+              <h2>Direct Deposit Updated</h2>
+              <p>Your direct deposit information has been successfully updated.</p>
+              <div class="status-details">
+                <div><span>Payment Method:</span><strong>Direct Deposit</strong></div>
+                <div><span>Account:</span><strong>Checking •••• 4821</strong></div>
+                <div><span>Status:</span><strong>Active</strong></div>
+                <div><span>Effective Date:</span><strong id="success-effective-date">Pending payroll confirmation</strong></div>
+              </div>
+              <p class="status-note">Your updated banking information will be used according to your payroll provider's processing schedule.</p>
+              <div class="form-actions">
+                <a class="button secondary" href="../#direct-deposit">Return to Direct Deposit</a>
+                <a class="button primary" href="../../">Go to Employee Dashboard</a>
+              </div>
+            </div>
+
+            <div id="pending-state" class="status-card hidden" role="status">
+              <h2>Update Submitted</h2>
+              <p>Your direct deposit change has been submitted and is pending processing.</p>
+              <div class="status-details">
+                <div><span>Account:</span><strong>Checking •••• 4821</strong></div>
+                <div><span>Status:</span><strong>Pending</strong></div>
+                <div><span>Effective Date:</span><strong id="pending-effective-date">Pending payroll confirmation</strong></div>
+              </div>
+              <div class="form-actions single-action">
+                <a class="button primary" href="../#direct-deposit">Return to Direct Deposit</a>
+              </div>
+            </div>
+
+            <div id="error-state" class="status-card hidden" role="alert">
+              <h2>We Couldn't Update Your Direct Deposit</h2>
+              <p id="error-message-copy">We were unable to update your banking information. Your existing direct deposit information has not been changed.</p>
+              <div class="form-actions">
+                <button type="button" class="button secondary" id="retry-direct-deposit-update">Try Again</button>
+                <a class="button primary" href="../#direct-deposit">Return to Direct Deposit</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="discard-confirmation-modal" class="confirmation-modal hidden" role="dialog" aria-modal="true" aria-labelledby="discard-header">
+      <div class="confirmation-card">
+        <h3 id="discard-header">Discard Changes?</h3>
+        <p>You have unsaved changes. Are you sure you want to leave this page?</p>
+        <div class="form-actions">
+          <button type="button" class="button secondary" id="keep-editing">Keep Editing</button>
+          <button type="button" class="button primary" id="discard-changes">Discard Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../../script.js"></script>
+  </body>
+</html>

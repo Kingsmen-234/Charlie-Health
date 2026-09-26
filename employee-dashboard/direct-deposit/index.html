@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Direct Deposit</title>
+    <meta name="description" content="Charlie Health direct deposit management placeholder." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body class="portal-page employee-dashboard-page">
+    <div class="employee-dashboard-shell">
+      <aside class="employee-sidebar" aria-label="Employee dashboard navigation">
+        <div class="employee-sidebar-header">
+          <div class="employee-sidebar-brand">
+            <div class="logo-mark">CH</div>
+            <div>
+              <strong>Charlie Health</strong>
+              <span>Employee Portal</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="employee-nav" aria-label="Main navigation">
+          <a class="nav-item" href="../"><span class="nav-icon">▣</span> Dashboard</a>
+          <a class="nav-item" href="../profile/"><span class="nav-icon">◉</span> My Profile</a>
+          <a class="nav-item active" href="./"><span class="nav-icon">◫</span> Direct Deposit</a>
+          <a class="nav-item" href="../payroll/"><span class="nav-icon">◍</span> Payroll</a>
+          <a class="nav-item" href="../training/"><span class="nav-icon">◌</span> Training</a>
+          <a class="nav-item" href="../benefits/"><span class="nav-icon">◎</span> Benefits</a>
+          <a class="nav-item" href="../documents/"><span class="nav-icon">▤</span> Documents</a>
+          <a class="nav-item" href="../support/"><span class="nav-icon">? </span> Help &amp; Support</a>
+        </nav>
+
+        <div class="employee-sidebar-footer">
+          <button type="button" class="logout-sidebar-button" data-logout-button>Log Out</button>
+        </div>
+      </aside>
+
+      <main class="employee-main">
+        <header class="employee-topbar">
+          <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle navigation menu">☰ Menu</button>
+          <div class="notification-tray">
+            <a class="notification-link" href="../notifications/" aria-label="Open notifications">🔔<span class="notification-count">3</span></a>
+            <div class="profile-menu">
+              <button type="button" class="profile-menu-toggle" aria-expanded="false" aria-label="Open account menu">
+                <div class="profile-avatar" aria-label="Employee profile">JL</div>
+                <div class="profile-meta">
+                  <strong>Jordan Lee</strong>
+                  <span>Employee ID: CH-2048</span>
+                </div>
+                <span class="menu-caret">▾</span>
+              </button>
+              <div class="profile-menu-list" role="menu">
+                <a class="profile-menu-item" href="../profile/" role="menuitem">My Profile</a>
+                <a class="profile-menu-item" href="../profile/" role="menuitem">Account Settings</a>
+                <button type="button" class="profile-menu-item danger" data-logout-button role="menuitem">Log Out</button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="employee-page-shell">
+          <header class="page-header">
+            <h1>Direct Deposit</h1>
+            <p>Manage your banking details and payroll preferences.</p>
+          </header>
+
+          <section class="content-panel" id="direct-deposit">
+            <div class="card-header">
+              <h3>Payment Method</h3>
+            </div>
+            <div class="form-grid">
+              <div class="field-group">
+                <label>Choose your payment method</label>
+                <div class="options-row">
+                  <label class="option-pill"><input type="radio" name="payment-method" checked /> Direct Deposit</label>
+                  <label class="option-pill"><input type="radio" name="payment-method" /> Paper Check</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-header" style="margin-top: 24px;">
+              <h3>Bank Account</h3>
+            </div>
+
+            <form id="direct-deposit-form" class="form-layout" novalidate>
+              <div class="form-grid">
+                <div class="field-group">
+                  <label for="bank-name">Bank Name</label>
+                  <input id="bank-name" type="text" placeholder="Enter bank name" />
+                </div>
+                <div class="field-group">
+                  <label for="account-name">Account Name</label>
+                  <input id="account-name" type="text" placeholder="Account holder name" />
+                </div>
+                <div class="field-group">
+                  <label for="account-type">Account Type</label>
+                  <select id="account-type">
+                    <option value="">Select account type</option>
+                    <option value="Checking">Checking</option>
+                    <option value="Savings">Savings</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="routing-number">Routing Number</label>
+                  <input id="routing-number" type="text" inputmode="numeric" placeholder="9-digit routing number" />
+                </div>
+                <div class="field-group" style="grid-column: 1 / -1;">
+                  <label for="account-number">Account Number</label>
+                  <input id="account-number" type="text" inputmode="numeric" placeholder="Account number" />
+                </div>
+              </div>
+
+              <div id="direct-deposit-status" class="error-message" aria-live="polite"></div>
+              <button type="button" class="button primary" data-direct-deposit-update-link style="margin-top: 20px;">Update Direct Deposit</button>
+            </form>
+
+            <div class="audit-note">This form is a placeholder and should only be connected to a secure payroll provider before live banking data is stored or displayed.</div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../../script.js"></script>
+  </body>
+</html>

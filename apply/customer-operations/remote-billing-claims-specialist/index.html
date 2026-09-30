@@ -248,6 +248,42 @@
               </select>
             </div>
 
+            <section class="previous-employers-section" aria-labelledby="previous-employers-title">
+              <div class="previous-employers-heading">
+                <h3 id="previous-employers-title">Previous Employers</h3>
+                <p>Share your recent work history. This section is optional.</p>
+              </div>
+              <div data-employers-list>
+                <div class="previous-employer-entry" data-employer-entry>
+                  <h4 data-employer-title>Employer 1</h4>
+                  <div class="form-grid two-col">
+                    <div class="field-group">
+                      <label for="previous-employer-company-0">Company Name</label>
+                      <input id="previous-employer-company-0" name="previousEmployers[0][company]" type="text" data-employer-field="company" placeholder="Company name" />
+                    </div>
+                    <div class="field-group">
+                      <label for="previous-employer-jobTitle-0">Job Title</label>
+                      <input id="previous-employer-jobTitle-0" name="previousEmployers[0][jobTitle]" type="text" data-employer-field="jobTitle" placeholder="Your role" />
+                    </div>
+                    <div class="field-group">
+                      <label for="previous-employer-startDate-0">Start Date</label>
+                      <input id="previous-employer-startDate-0" name="previousEmployers[0][startDate]" type="month" data-employer-field="startDate" />
+                    </div>
+                    <div class="field-group">
+                      <label for="previous-employer-endDate-0">End Date</label>
+                      <input id="previous-employer-endDate-0" name="previousEmployers[0][endDate]" type="month" data-employer-field="endDate" />
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <label for="previous-employer-responsibilities-0">Responsibilities</label>
+                    <textarea id="previous-employer-responsibilities-0" name="previousEmployers[0][responsibilities]" rows="3" data-employer-field="responsibilities" placeholder="Briefly describe your responsibilities"></textarea>
+                  </div>
+                  <button type="button" class="employer-remove" data-remove-employer hidden>Remove employer</button>
+                </div>
+              </div>
+              <button type="button" class="button secondary small" data-add-employer>Add another employer</button>
+            </div>
+
             <div class="field-group">
               <label for="relevant-experience">Tell us about your relevant billing, claims, insurance, healthcare administration, or customer service experience.</label>
               <textarea id="relevant-experience" name="relevantExperience" maxlength="1000" rows="5" placeholder="Describe your relevant experience"></textarea>
